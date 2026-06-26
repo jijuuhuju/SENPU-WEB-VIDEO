@@ -13,11 +13,8 @@
         .search-bar button { width: 50px; background-color: #212636; border: 1px solid #2a2f42; border-left: none; border-radius: 0 40px 40px 0; color: #00d2ff; cursor: pointer; }
         .container { display: flex; max-width: 1280px; margin: 76px auto 0; padding: 0 24px; gap: 24px; }
         .main-content { flex: 2; }
-        
-        /* 🛠 動画エリアを「GIF画像」が綺麗に収まる箱に調整 */
-        .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; background-color: #000; border-radius: 16px; overflow: hidden; }
-        .video-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
-        
+        .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+        .cyber-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); display: flex; justify-content: center; align-items: center; font-size: 64px; }
         .video-title { font-size: 20px; font-weight: 700; margin: 16px 0 12px 0; }
         .video-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
         .channel-info { display: flex; align-items: center; gap: 12px; }
@@ -29,7 +26,7 @@
         .active-btn { background-color: rgba(0, 210, 255, 0.3) !important; color: #00d2ff !important; }
         .comment-section { border-top: 1px solid #1f2330; padding-top: 20px; }
         .comment-form { display: flex; gap: 12px; margin-bottom: 24px; }
-        .user-avatar { width: 40px; height: 40px; background-color: #555; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+        .user-avatar { width: 40px; height: 40px; background-color: #555; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; }
         .comment-input-area { flex: 1; display: flex; flex-direction: column; gap: 8px; }
         .comment-input-area input { background: none; border: none; border-bottom: 1px solid #2a2f42; color: #fff; padding: 8px 0; outline: none; }
         .comment-submit-btn { align-self: flex-end; background-color: #212636; color: #fff; border: none; padding: 8px 16px; border-radius: 16px; cursor: pointer; }
@@ -37,6 +34,7 @@
         .comment-list { display: flex; flex-direction: column; gap: 16px; }
         .comment-item { display: flex; gap: 12px; }
         .comment-text-box h4 { margin: 0 0 4px 0; font-size: 13px; color: #8a92a6; }
+        .comment-text-box p { margin: 0; font-size: 15px; }
         .sidebar { flex: 1; display: flex; flex-direction: column; gap: 12px; }
         .recommend-card { display: flex; gap: 12px; cursor: pointer; padding: 8px; border-radius: 8px; }
         .recommend-card:hover { background-color: rgba(255, 255, 255, 0.05); }
@@ -54,16 +52,15 @@
 
     <div class="container">
         <div class="main-content">
-            <!-- 🛠 タグを <video> から <img> に変更し、GIFを読み込むようにしました -->
             <div class="video-wrapper">
-                <img id="mainGif" src="https://giphy.com" alt="video">
+                <div class="cyber-screen" id="mainScreen">🌿</div>
             </div>
-            <h1 class="video-title" id="currentTitle">Pixel Bonfire (Cozy Animation)</h1>
+            <h1 class="video-title" id="currentTitle">Leisurely grassland</h1>
             
             <div class="video-toolbar">
                 <div class="channel-info">
                     <div class="channel-icon"></div>
-                    <span class="channel-name">Pixel Artist</span>
+                    <span class="channel-name">センプ公式チャンネル</span>
                     <button class="subscribe-btn" id="subBtn" onclick="toggleSub()">チャンネル登録</button>
                 </div>
                 <div class="action-buttons">
@@ -81,33 +78,45 @@
                         <button class="comment-submit-btn" id="submitBtn" onclick="addComment()">投稿</button>
                     </div>
                 </div>
+                <!-- 🛠 コメント欄を指定通りに書き換えました -->
                 <div class="comment-list" id="commentList">
-                    <div class="comment-item"><div class="user-avatar">🐱</div><div class="comment-text-box"><h4>@music_lover</h4><p>ドット絵の焚き火、めっちゃ癒やされますね🔥</p></div></div>
-                    <div class="comment-item"><div class="user-avatar">🦊</div><div class="comment-text-box"><h4>@web_dev_kun</h4><p>GIFリライト作戦大成功！これなら絶対動く！</p></div></div>
+                    <div class="comment-item">
+                        <div class="user-avatar">🦊</div>
+                        <div class="comment-text-box">
+                            <h4>@fox_fan • 2分前</h4>
+                            <p>すごいね</p>
+                        </div>
+                    </div>
+                    <div class="comment-item">
+                        <div class="user-avatar">🐇</div>
+                        <div class="comment-text-box">
+                            <h4>@rabbit_dev • 5分前</h4>
+                            <p>尊敬にして、</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 🛠 右側リストを押した時も別のGIFに切り替わるように設定 -->
         <div class="sidebar">
-            <div class="recommend-card" onclick="changeGif('https://giphy.com', 'Pixel Bonfire (Cozy Animation)')">
-                <div class="thumbnail" style="background: linear-gradient(135deg, #00d2ff, #0066ff);">🔥</div>
-                <div class="rec-info"><h3>Pixel Bonfire</h3><p>Pixel Artist</p></div>
+            <div class="recommend-card" onclick="changeScreen('🌿', 'Leisurely grassland', 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)')">
+                <div class="thumbnail" style="background: linear-gradient(135deg, #00d2ff, #0066ff);">🌿</div>
+                <div class="rec-info"><h3>Leisurely grassland</h3><p>Acoustic Breeze</p></div>
             </div>
-            <div class="recommend-card" onclick="changeGif('https://giphy.com', 'Space Cat Rocket (Retro Anime)')">
-                <div class="thumbnail" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);">🐱</div>
-                <div class="rec-info"><h3>Space Cat Rocket</h3><p>Retro Anime</p></div>
+            <div class="recommend-card" onclick="changeScreen('🐰', 'Big Buck Bunny', 'linear-gradient(135deg, #3a1c1c, #5c2c2c, #1e0f0f)')">
+                <div class="thumbnail" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);">🐰</div>
+                <div class="rec-info"><h3>Big Buck Bunny</h3><p>Blender Studio</p></div>
             </div>
         </div>
     </div>
 
     <script>
-        const gifView = document.getElementById('mainGif'), currentTitle = document.getElementById('currentTitle'), subBtn = document.getElementById('subBtn');
+        const screen = document.getElementById('mainScreen'), currentTitle = document.getElementById('currentTitle'), subBtn = document.getElementById('subBtn');
         let likes = 125, isLiked = false, isDisliked = false;
 
-        // 🛠 GIFを切り替える処理
-        function changeGif(url, title) { 
-            gifView.src = url; 
+        function changeScreen(emoji, title, bgGradient) { 
+            screen.innerText = emoji;
+            screen.style.background = bgGradient;
             currentTitle.innerText = title; 
         }
         
