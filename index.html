@@ -13,17 +13,20 @@
         .search-bar button { width: 50px; background-color: #212636; border: 1px solid #2a2f42; border-left: none; border-radius: 0 40px 40px 0; color: #00d2ff; cursor: pointer; }
         .container { display: flex; max-width: 1280px; margin: 76px auto 0; padding: 0 24px; gap: 24px; }
         .main-content { flex: 2; }
+        
+        /* 🛠 動画エリアを「GIF画像」が綺麗に収まる箱に調整 */
         .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; background-color: #000; border-radius: 16px; overflow: hidden; }
-        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
+        .video-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
+        
         .video-title { font-size: 20px; font-weight: 700; margin: 16px 0 12px 0; }
         .video-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
         .channel-info { display: flex; align-items: center; gap: 12px; }
         .channel-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #00d2ff, #0066ff); border-radius: 50%; }
         .subscribe-btn { background-color: #00d2ff; color: #0d0e12; border: none; padding: 0 20px; height: 36px; border-radius: 18px; font-weight: bold; cursor: pointer; }
         .action-buttons { display: flex; background-color: #161922; border-radius: 20px; border: 1px solid #2a2f42; overflow: hidden; }
-        .like-btn, .dislike-btn { background: none; border: none; color: #fff; padding: 0 16px; height: 36px; display: flex; align-items: center; gap: 6px; font-weight: bold; cursor: pointer; }
+        .like-btn, .dislike-btn { background: none; border: none; color: #fff; padding: 0 16px; height: 36px; display: flex; align-items: center; gap: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; }
         .like-btn { border-right: 1px solid #2a2f42; }
-        .active-btn { background-color: rgba(0, 210, 255, 0.2) !important; color: #00d2ff !important; }
+        .active-btn { background-color: rgba(0, 210, 255, 0.3) !important; color: #00d2ff !important; }
         .comment-section { border-top: 1px solid #1f2330; padding-top: 20px; }
         .comment-form { display: flex; gap: 12px; margin-bottom: 24px; }
         .user-avatar { width: 40px; height: 40px; background-color: #555; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
@@ -51,16 +54,16 @@
 
     <div class="container">
         <div class="main-content">
+            <!-- 🛠 タグを <video> から <img> に変更し、GIFを読み込むようにしました -->
             <div class="video-wrapper">
-                <!-- 🛠 再生対策：playsinline, muted, autoplay, loopを完璧にセット -->
-                <video id="mainVideo" controls autoplay muted playsinline loop src="https://googleapis.com"></video>
+                <img id="mainGif" src="https://giphy.com" alt="video">
             </div>
-            <h1 class="video-title" id="currentTitle">Big Buck Bunny</h1>
+            <h1 class="video-title" id="currentTitle">Pixel Bonfire (Cozy Animation)</h1>
             
             <div class="video-toolbar">
                 <div class="channel-info">
                     <div class="channel-icon"></div>
-                    <span class="channel-name">Acoustic Breeze</span>
+                    <span class="channel-name">Pixel Artist</span>
                     <button class="subscribe-btn" id="subBtn" onclick="toggleSub()">チャンネル登録</button>
                 </div>
                 <div class="action-buttons">
@@ -79,29 +82,35 @@
                     </div>
                 </div>
                 <div class="comment-list" id="commentList">
-                    <div class="comment-item"><div class="user-avatar">🐱</div><div class="comment-text-box"><h4>@music_lover</h4><p>癒やされます！🌿</p></div></div>
-                    <div class="comment-item"><div class="user-avatar">🦊</div><div class="comment-text-box"><h4>@web_dev_kun</h4><p>UIカッコいいな！</p></div></div>
+                    <div class="comment-item"><div class="user-avatar">🐱</div><div class="comment-text-box"><h4>@music_lover</h4><p>ドット絵の焚き火、めっちゃ癒やされますね🔥</p></div></div>
+                    <div class="comment-item"><div class="user-avatar">🦊</div><div class="comment-text-box"><h4>@web_dev_kun</h4><p>GIFリライト作戦大成功！これなら絶対動く！</p></div></div>
                 </div>
             </div>
         </div>
 
+        <!-- 🛠 右側リストを押した時も別のGIFに切り替わるように設定 -->
         <div class="sidebar">
-            <div class="recommend-card" onclick="changeVideo('bgm.mp3', 'Leisurely grassland')">
-                <div class="thumbnail" style="background: linear-gradient(135deg, #00d2ff, #0066ff);">🌿</div>
-                <div class="rec-info"><h3>Leisurely grassland</h3><p>Acoustic Breeze</p></div>
+            <div class="recommend-card" onclick="changeGif('https://giphy.com', 'Pixel Bonfire (Cozy Animation)')">
+                <div class="thumbnail" style="background: linear-gradient(135deg, #00d2ff, #0066ff);">🔥</div>
+                <div class="rec-info"><h3>Pixel Bonfire</h3><p>Pixel Artist</p></div>
             </div>
-            <div class="recommend-card" onclick="changeVideo('https://googleapis.com', 'Big Buck Bunny')">
-                <div class="thumbnail" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);">🐰</div>
-                <div class="rec-info"><h3>Big Buck Bunny</h3><p>Blender Foundation</p></div>
+            <div class="recommend-card" onclick="changeGif('https://giphy.com', 'Space Cat Rocket (Retro Anime)')">
+                <div class="thumbnail" style="background: linear-gradient(135deg, #ff416c, #ff4b2b);">🐱</div>
+                <div class="rec-info"><h3>Space Cat Rocket</h3><p>Retro Anime</p></div>
             </div>
         </div>
     </div>
 
     <script>
-        const video = document.getElementById('mainVideo'), currentTitle = document.getElementById('currentTitle'), subBtn = document.getElementById('subBtn');
+        const gifView = document.getElementById('mainGif'), currentTitle = document.getElementById('currentTitle'), subBtn = document.getElementById('subBtn');
         let likes = 125, isLiked = false, isDisliked = false;
 
-        function changeVideo(src, title) { video.src = src; currentTitle.innerText = title; video.play().catch(e => console.log("再生エラー防止")); }
+        // 🛠 GIFを切り替える処理
+        function changeGif(url, title) { 
+            gifView.src = url; 
+            currentTitle.innerText = title; 
+        }
+        
         function toggleSub() { const isSub = subBtn.innerText === "チャンネル登録"; subBtn.innerText = isSub ? "登録済み" : "チャンネル登録"; subBtn.style.backgroundColor = isSub ? "#212636" : "#00d2ff"; subBtn.style.color = isSub ? "#fff" : "#0d0e12"; }
         function toggleLike() { const btn = document.getElementById('likeBtn'), count = document.getElementById('likeCount'); if (!isLiked) { likes++; btn.classList.add('active-btn'); isLiked = true; if(isDisliked) toggleDislike(); } else { likes--; btn.classList.remove('active-btn'); isLiked = false; } count.innerText = likes; }
         function toggleDislike() { const btn = document.getElementById('dislikeBtn'); if (!isDisliked) { btn.classList.add('active-btn'); isDisliked = true; if(isLiked) toggleLike(); } else { btn.classList.remove('active-btn'); isDisliked = false; } }
